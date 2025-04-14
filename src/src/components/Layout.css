@@ -1,0 +1,75 @@
+/* Layout wrapper */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: white; /* Changed from #2b2b2b */
+  font-family: 'Arial', sans-serif;
+  color: black;            /* Changed from white */
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  color: black;            /* Changed from white */
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 20px 16px;
+  }
+}
+
+/* Logo styling */
+.top-left-logo {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 120px;
+  height: auto;
+  z-index: 999;
+}
+
+/* Section wrapper */
+.section {
+  padding: 60px 0;
+  background-color: white; /* Changed from #2b2b2b */
+}
+
+/* Section title */
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+  color: black; /* Changed from white */
+}
+
+/* CTA Button */
+.cta-button {
+  background-color: #b80000;
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.cta-button:hover {
+  background-color: #990000;
+}
+
+/* Optional: Links */
+a {
+  color: black; /* Changed from white */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
