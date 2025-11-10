@@ -2,9 +2,9 @@ import React from 'react';
 import './FeaturedProducts.css';
 
 const featuredProducts = [
-  { name: 'AMG', image: '/images/amg.jpeg' },
-  { name: 'Audi Q3 Sportsback', image: '/images/audiq3.jpeg' },
-  { name: 'BMW', image: '/images/bmw.jpeg' },
+  { name: 'Audi RSQ3', image: '../images/rsq3.jpg' },
+  { name: 'Mercedes C300d', image: '../images/car10.jpg' },
+  { name: 'Audi A7', image: '../images/audi.jpeg' }
 ];
 
 const FeaturedProducts = () => (
@@ -15,7 +15,7 @@ const FeaturedProducts = () => (
       {featuredProducts.map((product, index) => (
         <a
           key={index}
-          href="/contact#services"
+          href="/services"
           className="featured-product"
         >
           <img src={product.image} alt={product.name} className="featured-product-image" />
@@ -25,7 +25,7 @@ const FeaturedProducts = () => (
     </div>
 
     <div className="shop-all-wrapper">
-      <a href="/contact" className="shop-all-button">Shop all</a>
+      <a href="/services" className="shop-all-button">Shop all</a>
     </div>
   </section>
 );
