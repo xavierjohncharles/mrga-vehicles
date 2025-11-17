@@ -3,7 +3,7 @@ import './FeaturedProducts.css';
 
 const featuredProducts = [
   { name: 'Audi RSQ3', image: '../images/rsq3.jpg' },
-  { name: 'Mercedes C300d', image: '../images/car10.jpg' },
+  { name: 'BMW M340i', image: '../images/bmwm340i.jpg' },
   { name: 'Audi A7', image: '../images/audi.jpeg' }
 ];
 

@@ -1,11 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap');
+
 /* Layout wrapper */
 .layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: white; /* Changed from #2b2b2b */
-  font-family: 'Arial', sans-serif;
-  color: black;            /* Changed from white */
+  background-color: #F4F4F4;
+  background-image: url('../images/background-texture.png'); /* Add your texture path */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Cormorant Garamond', serif;
+  color: #111111;
 }
 
 /* Main content area */
@@ -14,7 +20,7 @@
   padding: 40px 20px;
   max-width: 1200px;
   margin: 0 auto;
-  color: black;            /* Changed from white */
+  color: #111111;
 }
 
 @media (max-width: 768px) {
@@ -36,37 +42,39 @@
 /* Section wrapper */
 .section {
   padding: 60px 0;
-  background-color: white; /* Changed from #2b2b2b */
+  background-color: transparent; /* Transparent to show background texture */
 }
 
 /* Section title */
 .section-title {
   font-size: 2rem;
-  font-weight: bold;
+  font-weight: 600;
   margin-bottom: 30px;
   text-align: center;
-  color: black; /* Changed from white */
+  color: #111111;
+  font-family: 'Cormorant Garamond', serif;
 }
 
 /* CTA Button */
 .cta-button {
-  background-color: #b80000;
+  background-color: #2C2C2C;
   color: white;
   padding: 12px 28px;
   border: none;
-  border-radius: 4px;
-  font-weight: bold;
+  border-radius: 999px;
+  font-weight: 600;
+  font-family: 'Cormorant Garamond', serif;
   transition: background-color 0.3s ease;
   cursor: pointer;
 }
 
 .cta-button:hover {
-  background-color: #990000;
+  background-color: #1A1A1A;
 }
 
-/* Optional: Links */
+/* Links */
 a {
-  color: black; /* Changed from white */
+  color: #2C2C2C;
   text-decoration: none;
 }
 

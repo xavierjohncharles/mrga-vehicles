@@ -1,0 +1,62 @@
+.how-to-book-vertical {
+  padding: 60px 20px;
+  background-color: #F4F4F4;
+  background-image: url('../images/background-texture.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  font-family: 'Cormorant Garamond', serif;
+  color: #111111;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+.how-title {
+  font-size: 2.8rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+/* Horizontally scrollable row of images */
+.how-images-stack {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 20px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.how-images-stack::-webkit-scrollbar {
+  display: none; /* Hides the scrollbar for a cleaner look */
+}
+
+.how-image {
+  flex: 0 0 auto;
+  width: 90vw;
+  max-width: 400px;
+  height: auto;
+  border-radius: 16px;
+  object-fit: cover;
+  scroll-snap-align: center;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease;
+}
+
+.how-image:hover {
+  transform: scale(1.02);
+}
+
+@media (min-width: 768px) {
+  .how-image {
+    width: 500px;
+  }
+}
+
+/* Image beneath the scroll row */
+.how-image-bottom-wrapper {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
