@@ -58,7 +58,7 @@ const Terms = () => {
 
         <div className="terms-section">
           <h2>CANCELLATION POLICY</h2>
-          <p>Cancellations are free up to 48 hours before pickup. A £50 fee applies within 48 hours, and same-day cancellations incur a 100% charge.</p>
+          <p>Cancellations are free up to 48 hours before pickup. A £50 fee applies within 48 hours, and same-day cancellations incur a 50% charge.</p>
         </div>
       </div>
     </>

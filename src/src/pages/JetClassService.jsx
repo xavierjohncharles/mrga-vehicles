@@ -6,7 +6,7 @@ const JetClassService = () => {
     <section className="jet-class-section">
       <h1 className="jet-title">Jet-Class Service</h1>
 
-      {/* Horizontal Media Section: 2 Images + 2 Video */}
+      {/* Horizontal Media Section: 5 Videos */}
       <div className="jet-gallery">
 
           <div className="jet-media">
@@ -19,11 +19,12 @@ const JetClassService = () => {
             playsInline
           />
         </div>
+        
 
         <div className="jet-media">
            <video
             className="jet-video"
-            src="/videos/position2.mp4"
+            src="/videos/flowers.mp4"
             autoPlay
             muted
             loop
@@ -48,6 +49,17 @@ const JetClassService = () => {
            <video
             className="jet-video"
             src="/videos/position4.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+
+        </div>
+           <div className="jet-media">
+           <video
+            className="jet-video"
+            src="/videos/position2.mp4"
             autoPlay
             muted
             loop

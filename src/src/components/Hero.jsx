@@ -7,7 +7,7 @@ const carImages = [
   "/images/car3.jpg",
   "/images/car5.jpg",
   "/images/car8.jpg",
-  "/images/car9.jpg",
+
   "/images/car10.jpg",
   "/images/car11.jpg",
   

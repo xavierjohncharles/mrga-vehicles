@@ -95,7 +95,7 @@ const ContactUs = () => {
         </div>
         <div className="m9-footer-col">
           <h4>Contact</h4>
-          <p>mgra.vehicles@gmail.com</p>
+          <p>info@mrga-vehicles.com</p>
         </div>
       </div>
     </section>

@@ -41,10 +41,18 @@
   border-radius: 25px;
   padding: 16px;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  border: none;
+  outline: none;
 }
 
 .featured-product:hover {
   transform: scale(1.05);
+}
+
+.featured-product:focus {
+  outline: 2px solid #2C2C2C;
+  outline-offset: 2px;
 }
 
 .featured-product-image {
@@ -95,5 +103,284 @@
 
   .section-title {
     font-size: 2rem;
+  }
+}
+
+/* Modal Styles */
+.vehicle-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  padding: 20px;
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.vehicle-modal-container {
+  position: relative;
+  background-color: #F4F4F4;
+  border-radius: 20px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.vehicle-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111111;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  font-family: Arial, sans-serif;
+}
+
+.vehicle-modal-close:hover {
+  background-color: #ffffff;
+  transform: scale(1.1);
+}
+
+.vehicle-modal-close:active {
+  transform: scale(0.95);
+}
+
+.vehicle-modal-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #111111;
+  margin: 30px 20px 20px 20px;
+  font-family: 'Cormorant Garamond', serif;
+  text-align: center;
+}
+
+.vehicle-modal-gallery {
+  padding: 0 20px 30px 20px;
+}
+
+.vehicle-modal-main-image-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #E0E0E0;
+}
+
+.vehicle-modal-main-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.vehicle-modal-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+}
+
+.vehicle-modal-nav:hover {
+  background-color: #ffffff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.vehicle-modal-nav:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.vehicle-modal-nav-prev {
+  left: 15px;
+}
+
+.vehicle-modal-nav-next {
+  right: 15px;
+}
+
+.vehicle-modal-thumbnails {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}
+
+.vehicle-modal-thumbnail {
+  width: 80px;
+  height: 80px;
+  border: 3px solid transparent;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.vehicle-modal-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.vehicle-modal-thumbnail.active {
+  border-color: #2C2C2C;
+}
+
+.vehicle-modal-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Mobile Modal Styles */
+@media (max-width: 768px) {
+  .vehicle-modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+
+  .vehicle-modal-container {
+    max-width: 100%;
+    width: 100%;
+    max-height: 85vh;
+    border-radius: 25px 25px 0 0;
+    animation: slideUpMobile 0.3s ease;
+  }
+
+  @keyframes slideUpMobile {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+  .vehicle-modal-close {
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    font-size: 32px;
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+
+  .vehicle-modal-title {
+    font-size: 1.6rem;
+    margin: 25px 15px 15px 15px;
+  }
+
+  .vehicle-modal-gallery {
+    padding: 0 15px 25px 15px;
+  }
+
+  .vehicle-modal-main-image-wrapper {
+    border-radius: 12px;
+  }
+
+  .vehicle-modal-main-image {
+    border-radius: 12px;
+  }
+
+  .vehicle-modal-nav {
+    width: 40px;
+    height: 40px;
+    font-size: 28px;
+  }
+
+  .vehicle-modal-nav-prev {
+    left: 10px;
+  }
+
+  .vehicle-modal-nav-next {
+    right: 10px;
+  }
+
+  .vehicle-modal-thumbnails {
+    gap: 8px;
+  }
+
+  .vehicle-modal-thumbnail {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 480px) {
+  .vehicle-modal-container {
+    max-height: 90vh;
+  }
+
+  .vehicle-modal-title {
+    font-size: 1.4rem;
+    margin: 20px 12px 12px 12px;
+  }
+
+  .vehicle-modal-gallery {
+    padding: 0 12px 20px 12px;
+  }
+
+  .vehicle-modal-thumbnail {
+    width: 60px;
+    height: 60px;
   }
 }

@@ -19,8 +19,6 @@ import vehicle13 from '../images/bmwm340i.jpg';
 const vehicles = [
   { name: 'Audi RS Q3', image: vehicle12 },
   { name: 'Mercedes C Class Coupe C300', image: vehicle3 },
-  { name: 'Mercedes A Class Saloon', image: vehicle5 },
-  { name: 'Mercedes A Class Premium', image: vehicle8 },
   { name: 'Mercedes C300d', image: vehicle10 },
   { name: 'Audi A7', image: vehicle11 },
   { name: 'BMW M340i', image: vehicle13 },
