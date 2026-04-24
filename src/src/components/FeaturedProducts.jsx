@@ -180,7 +180,7 @@ const FeaturedProducts = () => {
                 )}
                 <img 
                   src={selectedVehicle.images[currentImageIndex]} 
-                  alt={`${selectedVehicle.name} - Image ${currentImageIndex + 1}`}
+                  alt={`${selectedVehicle.name} view ${currentImageIndex + 1}`}
                   className="vehicle-modal-main-image"
                 />
               </div>

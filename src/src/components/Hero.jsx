@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import "./Hero.css";
 
 const carImages = [
@@ -45,7 +46,14 @@ const Hero = () => {
               </span>
             </span>
           </h1>
-
+          <div className="hero-actions">
+            <Link to="/book" className="hero-button hero-button-primary">
+              Check availability
+            </Link>
+            <Link to="/services" className="hero-button hero-button-secondary">
+              Browse vehicles
+            </Link>
+          </div>
       </div>
 
       <div className="hero-slider">

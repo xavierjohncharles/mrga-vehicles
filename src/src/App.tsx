@@ -13,6 +13,7 @@ import Services from './pages/Services';
 import About from './pages/About';
 import HowToBook from './pages/HowToBook';
 import ClientReviews from './pages/ClientReviews';
+import Book from './pages/Book';
 import JetClassService from './pages/JetClassService'; // ✅ Import here
 
 import './App.css';
@@ -34,7 +35,7 @@ const ConditionalSections = () => {
 };
 
 const App = () => (
-  <BrowserRouter>
+  <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
     <ConditionalSections />
     <Routes>
       <Route path="/" element={<></>} />
@@ -42,6 +43,7 @@ const App = () => (
       <Route path="/terms" element={<Terms />} />
       <Route path="/services" element={<Services />} />
       <Route path="/about" element={<About />} />
+      <Route path="/book" element={<Book />} />
       <Route path="/how-to-book" element={<HowToBook />} />
       <Route path="/reviews" element={<ClientReviews />} />
       <Route path="/jet-class" element={<JetClassService />} /> {/* ✅ NEW ROUTE */}

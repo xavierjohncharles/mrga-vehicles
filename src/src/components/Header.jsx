@@ -26,6 +26,7 @@ const Header = () => {
         <ul>
           <li><Link to="/" onClick={closeMenu}>Home</Link></li>
           <li><Link to="/services" onClick={closeMenu}>Vehicles</Link></li>
+          <li><Link to="/book" onClick={closeMenu}>Book</Link></li>
           <li><Link to="/jet-class" onClick={closeMenu}>Chauffeur</Link></li> {/* ✅ New link */}
           <li><Link to="/about" onClick={closeMenu}>About</Link></li>
           <li><Link to="/how-to-book" onClick={closeMenu}>How to Book</Link></li>

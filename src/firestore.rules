@@ -1,0 +1,47 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function bookingWindowLooksValid() {
+      return request.resource.data.startAt is string
+        && request.resource.data.endAt is string
+        && request.resource.data.startAt < request.resource.data.endAt;
+    }
+
+    match /availabilityBlocks/{bookingId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly([
+          'vehicleId',
+          'vehicleName',
+          'startAt',
+          'endAt',
+          'status',
+          'createdAt'
+        ])
+        && request.resource.data.vehicleId is string
+        && request.resource.data.vehicleName is string
+        && request.resource.data.status in ['pending', 'confirmed']
+        && bookingWindowLooksValid();
+      allow update, delete: if false;
+    }
+
+    match /bookings/{bookingId} {
+      allow create: if request.resource.data.keys().hasOnly([
+          'clientName',
+          'vehicleId',
+          'vehicleName',
+          'startAt',
+          'endAt',
+          'price',
+          'status',
+          'createdAt'
+        ])
+        && request.resource.data.clientName is string
+        && request.resource.data.vehicleId is string
+        && request.resource.data.vehicleName is string
+        && request.resource.data.price is number
+        && request.resource.data.status == 'pending'
+        && bookingWindowLooksValid();
+      allow read, update, delete: if false;
+    }
+  }
+}
