@@ -23,9 +23,7 @@ const OurVehicles = () => (
       {vehicles.map((car, index) => (
         <a
           key={index}
-          href="https://api.whatsapp.com/send?phone=447301380717"
-          target="_blank"
-          rel="noopener noreferrer"
+          href="/book"
           className="vehicle-card"
         >
           <img src={car.image} alt={car.name} className="vehicle-img" />

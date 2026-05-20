@@ -1,22 +1,30 @@
 // src/App.tsx
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import FeaturedProducts from './components/FeaturedProducts';
-import OurServices from './components/OurServices';
-import ContactUs from './components/ContactUs';
 import FloatingWhatsAppButton from './components/FloatingWhatsAppButton';
-import Contact from './pages/Contact';
-import Terms from './pages/Terms';
-import Services from './pages/Services';
-import About from './pages/About';
-import HowToBook from './pages/HowToBook';
-import ClientReviews from './pages/ClientReviews';
-import Book from './pages/Book';
-import JetClassService from './pages/JetClassService'; // ✅ Import here
-
 import './App.css';
+
+const Hero = lazy(() => import('./components/Hero'));
+const FeaturedProducts = lazy(() => import('./components/FeaturedProducts'));
+const OurServices = lazy(() => import('./components/OurServices'));
+const ContactUs = lazy(() => import('./components/ContactUs'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Terms = lazy(() => import('./pages/Terms'));
+const Services = lazy(() => import('./pages/Services'));
+const About = lazy(() => import('./pages/About'));
+const HowToBook = lazy(() => import('./pages/HowToBook'));
+const ClientReviews = lazy(() => import('./pages/ClientReviews'));
+const Book = lazy(() => import('./pages/Book'));
+const JetClassService = lazy(() => import('./pages/JetClassService'));
+const Admin = lazy(() => import('./pages/Admin'));
+
+const PageLoader = () => (
+  <div className="page-loader" role="status" aria-live="polite">
+    <div className="page-loader-spinner" aria-hidden="true"></div>
+    <p>Loading page...</p>
+  </div>
+);
 
 const ConditionalSections = () => {
   const location = useLocation();
@@ -25,10 +33,14 @@ const ConditionalSections = () => {
   return (
     <>
       <Header />
-      {isHome && <Hero />}
-      {isHome && <FeaturedProducts />}
-      {isHome && <OurServices />}
-      {isHome && <ContactUs />}
+      {isHome ? (
+        <Suspense fallback={<PageLoader />}>
+          <Hero />
+          <FeaturedProducts />
+          <OurServices />
+          <ContactUs />
+        </Suspense>
+      ) : null}
       <FloatingWhatsAppButton />
     </>
   );
@@ -37,17 +49,20 @@ const ConditionalSections = () => {
 const App = () => (
   <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
     <ConditionalSections />
-    <Routes>
-      <Route path="/" element={<></>} />
-      <Route path="/contact" element={<Contact />} />
-      <Route path="/terms" element={<Terms />} />
-      <Route path="/services" element={<Services />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/book" element={<Book />} />
-      <Route path="/how-to-book" element={<HowToBook />} />
-      <Route path="/reviews" element={<ClientReviews />} />
-      <Route path="/jet-class" element={<JetClassService />} /> {/* ✅ NEW ROUTE */}
-    </Routes>
+    <Suspense fallback={<PageLoader />}>
+      <Routes>
+        <Route path="/" element={<></>} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/book" element={<Book />} />
+        <Route path="/how-to-book" element={<HowToBook />} />
+        <Route path="/reviews" element={<ClientReviews />} />
+        <Route path="/jet-class" element={<JetClassService />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </Suspense>
   </BrowserRouter>
 );
 

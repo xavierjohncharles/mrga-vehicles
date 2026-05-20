@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { bookingVehicles, getBookingVehicle } from '../data/bookingVehicles';
-import { createBookingRequest, fetchVehicleAvailability } from '../services/bookingService';
+import {
+  createBookingRequest,
+  fetchVehicleAvailability,
+  getCachedAvailabilityByVehicle,
+  preloadBookingInfrastructure,
+} from '../services/bookingService';
 import {
   blockTouchesDay,
   buildDefaultDateRange,
@@ -13,19 +18,70 @@ import {
   getMonthLabel,
   isSameDay,
   overlaps,
-  toInputDateTimeValue,
   type AvailabilityBlock,
 } from '../utils/booking';
 import './Book.css';
 
 const defaultRange = buildDefaultDateRange();
+const initialAvailabilityByVehicle = getCachedAvailabilityByVehicle();
+const BOOKING_SUBMIT_TIMEOUT_MS = 12000;
+
+const toDateInputValue = (date: Date) => {
+  const year = date.getFullYear();
+  const month = `${date.getMonth() + 1}`.padStart(2, '0');
+  const day = `${date.getDate()}`.padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
+
+const toTimeInputValue = (date: Date) => {
+  const hours = `${date.getHours()}`.padStart(2, '0');
+  const minutes = `${date.getMinutes()}`.padStart(2, '0');
+
+  return `${hours}:${minutes}`;
+};
+
+const combineDateAndTime = (dateValue: string, timeValue: string) => {
+  if (!dateValue || !timeValue) {
+    return null;
+  }
+
+  const combinedDate = new Date(`${dateValue}T${timeValue}`);
+
+  if (Number.isNaN(combinedDate.getTime())) {
+    return null;
+  }
+
+  return combinedDate;
+};
+
+const withTimeout = async <T,>(promise: Promise<T>, timeoutMs: number): Promise<T> => {
+  let timeoutId;
+
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<T>((_, reject) => {
+        timeoutId = window.setTimeout(() => {
+          reject(new Error('Booking request timed out'));
+        }, timeoutMs);
+      }),
+    ]);
+  } finally {
+    if (typeof timeoutId === 'number') {
+      window.clearTimeout(timeoutId);
+    }
+  }
+};
 
 const Book = () => {
   const [selectedVehicleId, setSelectedVehicleId] = useState(bookingVehicles[0].id);
-  const [availabilityBlocks, setAvailabilityBlocks] = useState<AvailabilityBlock[]>([]);
-  const [isLoadingAvailability, setIsLoadingAvailability] = useState(true);
+  const [availabilityByVehicle, setAvailabilityByVehicle] =
+    useState<Record<string, AvailabilityBlock[]>>(initialAvailabilityByVehicle);
+  const [isLoadingAvailability, setIsLoadingAvailability] = useState(false);
   const [loadError, setLoadError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
   const [submitState, setSubmitState] = useState<{ type: 'success' | 'error'; message: string } | null>(
     null
   );
@@ -35,27 +91,47 @@ const Book = () => {
   const [formData, setFormData] = useState({
     clientName: '',
     vehicleId: bookingVehicles[0].id,
-    startAt: toInputDateTimeValue(defaultRange.start),
-    endAt: toInputDateTimeValue(defaultRange.end),
+    startDate: toDateInputValue(defaultRange.start),
+    startTime: toTimeInputValue(defaultRange.start),
+    endDate: toDateInputValue(defaultRange.end),
+    endTime: toTimeInputValue(defaultRange.end),
     price: '',
   });
+  const syncedVehiclesRef = useRef(
+    new Set(
+      Object.entries(initialAvailabilityByVehicle)
+        .filter(([, blocks]) => blocks.length)
+        .map(([vehicleId]) => vehicleId)
+    )
+  );
+
+  useEffect(() => {
+    preloadBookingInfrastructure();
+  }, []);
 
   useEffect(() => {
     let ignore = false;
 
-    const loadAvailability = async () => {
+    const refreshSelectedVehicle = async () => {
+      if (syncedVehiclesRef.current.has(selectedVehicleId)) {
+        return;
+      }
+
       setIsLoadingAvailability(true);
       setLoadError('');
 
       try {
-        const blocks = await fetchVehicleAvailability(selectedVehicleId);
+        const nextVehicleBlocks = await fetchVehicleAvailability(selectedVehicleId);
 
         if (!ignore) {
-          setAvailabilityBlocks(blocks);
+          syncedVehiclesRef.current.add(selectedVehicleId);
+          setAvailabilityByVehicle((currentState) => ({
+            ...currentState,
+            [selectedVehicleId]: nextVehicleBlocks,
+          }));
         }
       } catch {
         if (!ignore) {
-          setAvailabilityBlocks([]);
           setLoadError('Availability could not be loaded. You can still complete the booking form.');
         }
       } finally {
@@ -65,7 +141,7 @@ const Book = () => {
       }
     };
 
-    loadAvailability();
+    refreshSelectedVehicle();
 
     return () => {
       ignore = true;
@@ -73,8 +149,9 @@ const Book = () => {
   }, [selectedVehicleId]);
 
   const selectedVehicle = getBookingVehicle(selectedVehicleId);
-  const requestedStart = formData.startAt ? new Date(formData.startAt) : null;
-  const requestedEnd = formData.endAt ? new Date(formData.endAt) : null;
+  const availabilityBlocks = availabilityByVehicle[selectedVehicleId] ?? [];
+  const requestedStart = combineDateAndTime(formData.startDate, formData.startTime);
+  const requestedEnd = combineDateAndTime(formData.endDate, formData.endTime);
   const today = new Date();
   const calendarDays = getCalendarDays(currentMonth);
 
@@ -82,7 +159,12 @@ const Book = () => {
 
   if (!formData.clientName.trim()) {
     validationMessage = 'Client name is required.';
-  } else if (!formData.startAt || !formData.endAt) {
+  } else if (
+    !formData.startDate ||
+    !formData.startTime ||
+    !formData.endDate ||
+    !formData.endTime
+  ) {
     validationMessage = 'Please choose both the start and end date/time.';
   } else if (!requestedStart || !requestedEnd || requestedEnd <= requestedStart) {
     validationMessage = 'The end date/time must be after the start date/time.';
@@ -98,6 +180,8 @@ const Book = () => {
           overlaps(requestedStart, requestedEnd, new Date(block.startAt), new Date(block.endAt))
         )
       : undefined;
+  const showValidationMessage = hasAttemptedSubmit && Boolean(validationMessage);
+  const showConflictMessage = hasAttemptedSubmit && Boolean(conflictingBlock);
 
   const handleFieldChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -118,6 +202,7 @@ const Book = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setHasAttemptedSubmit(true);
     setSubmitState(null);
 
     if (validationMessage || conflictingBlock || !requestedStart || !requestedEnd) {
@@ -136,36 +221,42 @@ const Book = () => {
     setIsSubmitting(true);
 
     try {
-      const newBlock = await createBookingRequest({
-        clientName: formData.clientName.trim(),
-        vehicleId: formData.vehicleId,
-        vehicleName: selectedVehicle.name,
-        startAt: requestedStart,
-        endAt: requestedEnd,
-        price: Number(formData.price),
-      });
-
-      setAvailabilityBlocks((currentState) =>
-        [...currentState, newBlock].sort(
-          (left, right) =>
-            new Date(left.startAt).getTime() - new Date(right.startAt).getTime()
-        )
+      await withTimeout(
+        createBookingRequest({
+          clientName: formData.clientName.trim(),
+          vehicleId: formData.vehicleId,
+          vehicleName: selectedVehicle.name,
+          startAt: requestedStart,
+          endAt: requestedEnd,
+          price: Number(formData.price),
+        }),
+        BOOKING_SUBMIT_TIMEOUT_MS
       );
       setSubmitState({
         type: 'success',
         message:
-          'Booking request submitted. The selected vehicle has been blocked as pending for these dates.',
+          'Booking request submitted. The admin has been emailed to review and accept it. Dates will only be blocked after approval.',
       });
+      setHasAttemptedSubmit(false);
       setFormData((currentState) => ({
         ...currentState,
         clientName: '',
         price: '',
       }));
-    } catch {
-      setSubmitState({
-        type: 'error',
-        message: 'Booking submission failed. Please try again.',
-      });
+    } catch (error) {
+      console.error('[booking] submit failed', error);
+
+      const detail =
+        error instanceof Error && error.message
+          ? error.message
+          : 'unknown error';
+
+      const message =
+        error instanceof Error && error.message === 'Booking request timed out'
+          ? 'Booking submission took too long. The server did not respond within 12 seconds — Firestore may be unreachable or the database may not be provisioned. Open the browser console for the full error.'
+          : `Booking submission failed: ${detail}. Open the browser console for the full error.`;
+
+      setSubmitState({ type: 'error', message });
     } finally {
       setIsSubmitting(false);
     }
@@ -202,7 +293,9 @@ const Book = () => {
               <h2>Vehicle availability</h2>
               <p>Choose a vehicle to see which dates are currently blocked.</p>
             </div>
-            {isLoadingAvailability ? <span className="booking-badge">Loading</span> : null}
+            <span className="booking-badge">
+              {isLoadingAvailability ? 'Checking live dates' : 'Live availability'}
+            </span>
           </div>
 
           <div className="vehicle-picker" role="tablist" aria-label="Vehicle availability tabs">
@@ -231,6 +324,18 @@ const Book = () => {
             <h3>{selectedVehicle.name}</h3>
             <p>{selectedVehicle.summary}</p>
           </div>
+
+          {isLoadingAvailability ? (
+            <div className="availability-loading availability-loading-inline" role="status" aria-live="polite">
+              <div className="availability-loading-header">
+                <span className="availability-spinner" aria-hidden="true"></span>
+                <div>
+                  <strong>Syncing live availability</strong>
+                  <p>Showing the calendar now and refreshing booked dates in the background.</p>
+                </div>
+              </div>
+            </div>
+          ) : null}
 
           <div className="calendar-toolbar">
             <button
@@ -357,21 +462,41 @@ const Book = () => {
               <span>Dates &amp; times for the booking</span>
               <div className="datetime-grid">
                 <label>
-                  <span>Start</span>
+                  <span>Start date</span>
                   <input
-                    type="datetime-local"
-                    name="startAt"
-                    value={formData.startAt}
+                    type="date"
+                    name="startDate"
+                    value={formData.startDate}
                     onChange={handleFieldChange}
                   />
                 </label>
 
                 <label>
-                  <span>End</span>
+                  <span>Start time</span>
                   <input
-                    type="datetime-local"
-                    name="endAt"
-                    value={formData.endAt}
+                    type="time"
+                    name="startTime"
+                    value={formData.startTime}
+                    onChange={handleFieldChange}
+                  />
+                </label>
+
+                <label>
+                  <span>End date</span>
+                  <input
+                    type="date"
+                    name="endDate"
+                    value={formData.endDate}
+                    onChange={handleFieldChange}
+                  />
+                </label>
+
+                <label>
+                  <span>End time</span>
+                  <input
+                    type="time"
+                    name="endTime"
+                    value={formData.endTime}
                     onChange={handleFieldChange}
                   />
                 </label>
@@ -397,7 +522,12 @@ const Book = () => {
             <div className="booking-summary">
               <div>
                 <span className="booking-summary-label">Duration</span>
-                <strong>{getDurationLabel(formData.startAt, formData.endAt)}</strong>
+                <strong>
+                  {getDurationLabel(
+                    requestedStart ? requestedStart.toISOString() : '',
+                    requestedEnd ? requestedEnd.toISOString() : ''
+                  )}
+                </strong>
               </div>
               <div>
                 <span className="booking-summary-label">Entered price</span>
@@ -411,14 +541,14 @@ const Book = () => {
               </div>
             </div>
 
-            {conflictingBlock ? (
+            {showConflictMessage && conflictingBlock ? (
               <p className="status-message status-error">
                 This request overlaps with an existing booking:{" "}
                 {formatDateTimeRange(conflictingBlock.startAt, conflictingBlock.endAt)}
               </p>
             ) : null}
 
-            {validationMessage ? (
+            {showValidationMessage ? (
               <p className="status-message status-error">{validationMessage}</p>
             ) : null}
 
@@ -435,7 +565,7 @@ const Book = () => {
             <button
               type="submit"
               className="booking-submit"
-              disabled={Boolean(validationMessage || conflictingBlock || isSubmitting)}
+              disabled={isSubmitting}
             >
               {isSubmitting ? 'Submitting booking...' : 'Submit booking request'}
             </button>

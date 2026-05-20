@@ -1,0 +1,445 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&display=swap');
+
+.admin-page {
+  min-height: 100vh;
+  padding: 140px 20px 70px;
+  background-color: #f4f4f4;
+  background-image: url('../images/background-texture.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #111111;
+  font-family: 'Cormorant Garamond', serif;
+  overflow-x: hidden;
+}
+
+.admin-shell {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.admin-hero {
+  background-color: #e0e0e0;
+  border-radius: 25px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+  padding: 36px 40px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-hero h1 {
+  margin: 0;
+  font-size: 2.4rem;
+  line-height: 1.1;
+}
+
+.admin-hero p {
+  margin: 8px 0 0;
+  color: #2c2c2c;
+}
+
+.admin-hero-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admin-button {
+  background-color: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.admin-button:hover {
+  background-color: #2c2c2c;
+}
+
+.admin-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.admin-button-secondary {
+  background-color: transparent;
+  color: #111111;
+  border: 1px solid #111111;
+}
+
+.admin-button-secondary:hover {
+  background-color: rgba(17, 17, 17, 0.08);
+}
+
+.admin-card {
+  background-color: #e0e0e0;
+  border-radius: 25px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.06);
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.admin-card h2 {
+  margin: 0 0 16px;
+  font-size: 1.6rem;
+}
+
+.admin-login {
+  max-width: 540px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.admin-login p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #2c2c2c;
+}
+
+.admin-login-email {
+  font-weight: 600;
+  color: #111111;
+}
+
+.admin-error {
+  margin-top: 18px;
+  padding: 12px 16px;
+  background-color: rgba(180, 30, 30, 0.1);
+  color: #b41e1e;
+  border-radius: 12px;
+  font-size: 1rem;
+}
+
+.admin-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.admin-pill {
+  background-color: transparent;
+  border: 1px solid #111111;
+  color: #111111;
+  padding: 8px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.admin-pill:hover {
+  background-color: rgba(17, 17, 17, 0.08);
+}
+
+.admin-pill-active {
+  background-color: #111111;
+  color: #ffffff;
+}
+
+.admin-calendar-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0 16px;
+}
+
+.admin-calendar-toolbar strong {
+  font-size: 1.3rem;
+}
+
+.admin-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.admin-calendar-headings {
+  margin-bottom: 6px;
+}
+
+.admin-calendar-heading {
+  text-align: center;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #2c2c2c;
+  padding: 8px 4px;
+}
+
+.admin-calendar-day {
+  background-color: #ffffff;
+  border-radius: 12px;
+  min-height: 96px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: relative;
+  border: 1px solid transparent;
+}
+
+.admin-calendar-day-muted {
+  opacity: 0.45;
+}
+
+.admin-calendar-day-today {
+  border-color: #111111;
+}
+
+.admin-calendar-day-number {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.admin-calendar-bookings {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.admin-calendar-booking {
+  background-color: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: background-color 0.2s ease;
+}
+
+.admin-calendar-booking:hover {
+  background-color: #2c2c2c;
+}
+
+.admin-calendar-booking-pending {
+  background-color: #b88600;
+}
+
+.admin-calendar-booking-pending:hover {
+  background-color: #d6a323;
+}
+
+.admin-calendar-booking-cancelled {
+  background-color: #6b6b6b;
+  text-decoration: line-through;
+}
+
+.admin-calendar-more {
+  font-size: 0.75rem;
+  color: #2c2c2c;
+}
+
+.admin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 9999;
+}
+
+.admin-modal {
+  background-color: #f4f4f4;
+  border-radius: 20px;
+  max-width: 540px;
+  width: 100%;
+  padding: 32px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+  font-family: 'Cormorant Garamond', serif;
+  color: #111111;
+}
+
+.admin-modal h2 {
+  margin: 0 0 6px;
+  font-size: 1.8rem;
+}
+
+.admin-modal-eyebrow {
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.85rem;
+  color: #2c2c2c;
+}
+
+.admin-modal-detail {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 6px 16px;
+  margin-bottom: 24px;
+  font-size: 1.05rem;
+}
+
+.admin-modal-detail dt {
+  font-weight: 600;
+  color: #2c2c2c;
+}
+
+.admin-modal-detail dd {
+  margin: 0;
+}
+
+.admin-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.admin-modal-actions-split {
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.admin-modal-note {
+  font-style: italic;
+  color: #6b6b6b;
+}
+
+.admin-button-danger {
+  background-color: #b41e1e;
+}
+
+.admin-button-danger:hover {
+  background-color: #8a1717;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 1rem;
+}
+
+.admin-field > span {
+  font-weight: 600;
+  color: #2c2c2c;
+  font-size: 0.95rem;
+}
+
+.admin-field input,
+.admin-field select {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #c7c7c7;
+  background-color: #ffffff;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #111111;
+}
+
+.admin-field input:focus,
+.admin-field select:focus {
+  outline: 2px solid #111111;
+  outline-offset: 1px;
+}
+
+.admin-datetime-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.admin-datetime-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.95rem;
+}
+
+.admin-datetime-grid label > span {
+  font-size: 0.85rem;
+  color: #2c2c2c;
+}
+
+.admin-status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: #111111;
+  color: #ffffff;
+}
+
+.admin-status-badge-pending {
+  background-color: #b88600;
+}
+
+.admin-status-badge-cancelled {
+  background-color: #6b6b6b;
+}
+
+.admin-loading {
+  padding: 16px 0;
+  font-style: italic;
+  color: #2c2c2c;
+}
+
+.admin-empty {
+  padding: 24px 0;
+  text-align: center;
+  color: #2c2c2c;
+}
+
+@media (max-width: 720px) {
+  .admin-page {
+    padding: 110px 12px 50px;
+  }
+
+  .admin-hero {
+    padding: 24px;
+  }
+
+  .admin-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .admin-card {
+    padding: 20px;
+  }
+
+  .admin-calendar-day {
+    min-height: 70px;
+    padding: 4px;
+  }
+
+  .admin-calendar-day-number {
+    font-size: 0.9rem;
+  }
+
+  .admin-calendar-booking {
+    font-size: 0.7rem;
+    padding: 2px 4px;
+  }
+}

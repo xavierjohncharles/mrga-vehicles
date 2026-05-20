@@ -1,5 +1,6 @@
 import { getAnalytics, isSupported } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
+import { GoogleAuthProvider, getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -14,6 +15,11 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+const googleAuthProvider = new GoogleAuthProvider();
+googleAuthProvider.setCustomParameters({ prompt: 'select_account' });
+
+export const ADMIN_EMAIL = 'mrga.vehicles@gmail.com';
 
 let analytics: ReturnType<typeof getAnalytics> | null = null;
 
@@ -29,4 +35,4 @@ if (typeof window !== 'undefined') {
     });
 }
 
-export { analytics, app, db };
+export { analytics, app, auth, db, googleAuthProvider };

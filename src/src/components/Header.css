@@ -9,9 +9,12 @@ header {
   width: 100%;
   top: 0;
   left: 0;
+  right: 0;
   z-index: 1000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   height: 80px;
+  box-sizing: border-box;
+  max-width: 100%;
 }
 
 
@@ -104,6 +107,17 @@ header {
    MOBILE STYLES
 --------------------- */
 @media screen and (max-width: 768px) {
+  header {
+    width: 100vw;
+    max-width: 100vw;
+    padding: 0 20px;
+  }
+
+  .logo {
+    height: 72px;
+    max-width: 96px;
+  }
+
   .hamburger {
     display: flex;
     position: fixed;
@@ -138,6 +152,7 @@ header {
     flex-direction: column;
     gap: 15px;
     z-index: 9998;
+    box-sizing: border-box;
   }
 
   .nav-links.active {

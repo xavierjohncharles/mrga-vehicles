@@ -1,0 +1,16 @@
+{
+  "name": "mrga-vehicles-functions",
+  "private": true,
+  "main": "index.js",
+  "engines": {
+    "node": "20"
+  },
+  "scripts": {
+    "lint": "node -e \"require('./index.js'); console.log('functions-loaded')\""
+  },
+  "dependencies": {
+    "firebase-admin": "^13.4.0",
+    "firebase-functions": "^6.4.0",
+    "resend": "^6.1.0"
+  }
+}
