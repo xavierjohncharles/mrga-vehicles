@@ -2,9 +2,7 @@ import React from 'react';
 import './OurVehicles.css';
 import vehicle3 from '../images/car3.jpg';
 import vehicle10 from '../images/car10.jpg';
-import vehicle11 from '../images/car11.jpg';
 import vehicle12 from '../images/rsq3.jpg';
-import vehicle13 from '../images/bmwm340i.jpg';
 
 
 
@@ -12,8 +10,6 @@ const vehicles = [
   { name: 'Audi RS Q3', image: vehicle12 },
   { name: 'Mercedes C Class Coupe C300', image: vehicle3 },
   { name: 'Mercedes C300d', image: vehicle10 },
-  { name: 'Audi A7', image: vehicle11 },
-  { name: 'BMW M340i', image: vehicle13 },
 ];
 
 const OurVehicles = () => (

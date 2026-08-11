@@ -35,14 +35,14 @@ const Hero = () => {
       <div className="hero-caption">
           <h1 className="hero-title">
             <span className="desktop-title">
-              MRGA – London Car Rentals & Chauffeurs
+              MRGA – Premium self-drive & chauffeur experiences
             </span>
             <span className="mobile-title">
               <span className="mobile-mrga">MRGA</span>
               <span className="mobile-subtitle">
-                <span className="emphasize">London Car Rentals</span>
+                <span className="emphasize">Premium self-drive</span>
                 <span className="ampersand"> & </span>
-                <span className="emphasize">Chauffeurs</span>
+                <span className="emphasize">chauffeur experiences</span>
               </span>
             </span>
           </h1>

@@ -15,20 +15,6 @@ export const bookingVehicles: BookingVehicle[] = [
     summary: 'Performance SUV with compact city-friendly size.',
   },
   {
-    id: 'a7',
-    name: 'Audi A7',
-    shortName: 'A7',
-    priceHint: 'Enter agreed rental total',
-    summary: 'Executive fastback suited to longer premium hires.',
-  },
-  {
-    id: 'm340i',
-    name: 'BMW M340i',
-    shortName: 'M340i',
-    priceHint: 'Enter agreed rental total',
-    summary: 'Sport saloon with a stronger performance-led profile.',
-  },
-  {
     id: 'c300-coupe',
     name: 'Mercedes C300 Coupe',
     shortName: 'C300 Coupe',

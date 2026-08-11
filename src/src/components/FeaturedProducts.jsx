@@ -14,37 +14,6 @@ const featuredProducts = [
       '../images/audi7.jpg',
       '../images/audi8.jpg'
     ]
-  },
-  { 
-    name: 'BMW M340i', 
-    coverImage: '../images/bmwm340i.jpg',
-    images: [
-      '../images/bmwm340i.jpg',
-      '../images/bmw1.jpg',
-      '../images/bmw2.jpg',
-      '../images/bmw3.jpg',
-      '../images/bmw4.jpg',
-      '../images/bmw5.jpg',
-      '../images/bmw6.jpg',
-      '../images/bmw7.jpg',
-      '../images/bmw8.jpg',
-      '../images/bmw9.jpg',
-      '../images/bmw10.jpg',
-      '../images/bmw11.jpg',
-      '../images/bmw12.jpg'
-    ]
-  },
-  { 
-    name: 'Audi A7', 
-    coverImage: '../images/audi.jpeg',
-    images: [
-      '../images/a71.jpg',
-      '../images/a72.jpg',
-      '../images/a73.jpg',
-      '../images/a74.jpg',
-      '../images/a75.jpg',
-      '../images/a76.jpg'
-    ]
   }
 ];
 
