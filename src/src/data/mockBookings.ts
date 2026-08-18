@@ -11,6 +11,7 @@ export const mockBookings: AdminBooking[] = [
   {
     id: 'mock-1',
     clientName: 'Alice Carter',
+    clientPhone: '07700 900123',
     vehicleId: 'rsq3',
     vehicleName: 'Audi RSQ3',
     startAt: todayAt(1, 10),
@@ -22,6 +23,7 @@ export const mockBookings: AdminBooking[] = [
   {
     id: 'mock-4',
     clientName: 'Daniel Kim',
+    clientPhone: '07700 900456',
     vehicleId: 'v-class',
     vehicleName: 'Mercedes V Class',
     startAt: todayAt(7, 7),
@@ -33,6 +35,7 @@ export const mockBookings: AdminBooking[] = [
   {
     id: 'mock-5',
     clientName: 'Emma Patel',
+    clientPhone: '07700 900789',
     vehicleId: 's-class',
     vehicleName: 'Mercedes S Class',
     startAt: todayAt(10, 14),
@@ -44,6 +47,7 @@ export const mockBookings: AdminBooking[] = [
   {
     id: 'mock-6',
     clientName: 'Faisal Ahmed',
+    clientPhone: '07700 900321',
     vehicleId: 'c300-coupe',
     vehicleName: 'Mercedes C300 Coupe',
     startAt: todayAt(2, 18),

@@ -92,6 +92,7 @@ const buildEmptyDraft = () => {
 
   return {
     clientName: '',
+    clientPhone: '',
     vehicleId: bookingVehicles[0].id,
     startDate: toDateInputValue(start),
     startTime: toTimeInputValue(start),
@@ -279,6 +280,11 @@ const Admin = () => {
       return;
     }
 
+    if (!draft.clientPhone.trim()) {
+      setDraftError('Client phone number is required.');
+      return;
+    }
+
     const start = combineDateAndTime(draft.startDate, draft.startTime);
     const end = combineDateAndTime(draft.endDate, draft.endTime);
 
@@ -322,6 +328,7 @@ const Admin = () => {
     try {
       const newBooking = await createAdminBooking({
         clientName: draft.clientName.trim(),
+        clientPhone: draft.clientPhone.trim(),
         vehicleId: vehicle.id,
         vehicleName: vehicle.name,
         startAt: start,
@@ -571,6 +578,16 @@ const Admin = () => {
               </span>
             </p>
             <dl className="admin-modal-detail">
+              <dt>Phone</dt>
+              <dd>
+                {selectedBooking.clientPhone ? (
+                  <a href={`tel:${selectedBooking.clientPhone.replace(/\s/g, '')}`}>
+                    {selectedBooking.clientPhone}
+                  </a>
+                ) : (
+                  'Not provided'
+                )}
+              </dd>
               <dt>Vehicle</dt>
               <dd>{selectedBooking.vehicleName}</dd>
               <dt>Window</dt>
@@ -629,6 +646,18 @@ const Admin = () => {
                   onChange={handleDraftChange}
                   placeholder="Enter client name"
                   autoComplete="name"
+                />
+              </label>
+
+              <label className="admin-field">
+                <span>Client phone number</span>
+                <input
+                  type="tel"
+                  name="clientPhone"
+                  value={draft.clientPhone}
+                  onChange={handleDraftChange}
+                  placeholder="e.g. 07123 456789"
+                  autoComplete="tel"
                 />
               </label>
 

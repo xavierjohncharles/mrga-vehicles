@@ -16,6 +16,7 @@ type StoredAvailabilityCache = {
 
 type CreateBookingRequestInput = {
   clientName: string;
+  clientPhone: string;
   vehicleId: string;
   vehicleName: string;
   startAt: Date;
@@ -49,6 +50,7 @@ const getFirestoreContext = async () => {
 export type AdminBooking = {
   id: string;
   clientName: string;
+  clientPhone: string;
   vehicleId: string;
   vehicleName: string;
   startAt: string;
@@ -94,6 +96,7 @@ export const fetchAllBookings = async (): Promise<AdminBooking[]> => {
       return {
         id: record.id,
         clientName: data.clientName,
+        clientPhone: typeof data.clientPhone === 'string' ? data.clientPhone : '',
         vehicleId: data.vehicleId,
         vehicleName: data.vehicleName,
         startAt: data.startAt,
@@ -392,6 +395,7 @@ export const fetchVehicleAvailability = async (vehicleId: string) => {
 
 export const createBookingRequest = async ({
   clientName,
+  clientPhone,
   vehicleId,
   vehicleName,
   startAt,
@@ -414,6 +418,7 @@ export const createBookingRequest = async ({
 
   batch.set(bookingRef, {
     clientName,
+    clientPhone,
     vehicleId,
     vehicleName,
     startAt: startAt.toISOString(),
@@ -430,6 +435,7 @@ export const createBookingRequest = async ({
 
 type CreateAdminBookingInput = {
   clientName: string;
+  clientPhone: string;
   vehicleId: string;
   vehicleName: string;
   startAt: Date;
@@ -440,6 +446,7 @@ type CreateAdminBookingInput = {
 
 export const createAdminBooking = async ({
   clientName,
+  clientPhone,
   vehicleId,
   vehicleName,
   startAt,
@@ -467,6 +474,7 @@ export const createAdminBooking = async ({
 
   batch.set(bookingRef, {
     clientName,
+    clientPhone,
     vehicleId,
     vehicleName,
     startAt: startIso,
@@ -494,6 +502,7 @@ export const createAdminBooking = async ({
   return {
     id: bookingId,
     clientName,
+    clientPhone,
     vehicleId,
     vehicleName,
     startAt: startIso,

@@ -164,6 +164,9 @@ const renderBookingEmail = ({ booking, acceptLink, calendarTableHtml }) => `
         <div style="padding:20px 22px;border-radius:20px;background:#f7f7f7;margin-bottom:24px;">
           <h2 style="margin:0 0 16px;font-size:24px;">New request details</h2>
           <p style="margin:0 0 8px;"><strong>Client:</strong> ${escapeHtml(booking.clientName)}</p>
+          <p style="margin:0 0 8px;"><strong>Phone:</strong> ${escapeHtml(
+            booking.clientPhone || 'Not provided'
+          )}</p>
           <p style="margin:0 0 8px;"><strong>Vehicle:</strong> ${escapeHtml(booking.vehicleName)}</p>
           <p style="margin:0 0 8px;"><strong>Start:</strong> ${escapeHtml(formatDateTime(booking.startAt))}</p>
           <p style="margin:0 0 8px;"><strong>End:</strong> ${escapeHtml(formatDateTime(booking.endAt))}</p>
@@ -305,6 +308,7 @@ exports.emailAdminForNewBooking = onDocumentCreated(
         text: [
           'A new booking request needs approval.',
           `Client: ${booking.clientName}`,
+          `Phone: ${booking.clientPhone || 'Not provided'}`,
           `Vehicle: ${booking.vehicleName}`,
           `Start: ${formatDateTime(booking.startAt)}`,
           `End: ${formatDateTime(booking.endAt)}`,

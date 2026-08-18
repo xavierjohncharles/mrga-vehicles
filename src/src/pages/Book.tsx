@@ -90,6 +90,7 @@ const Book = () => {
   );
   const [formData, setFormData] = useState({
     clientName: '',
+    clientPhone: '',
     vehicleId: bookingVehicles[0].id,
     startDate: toDateInputValue(defaultRange.start),
     startTime: toTimeInputValue(defaultRange.start),
@@ -159,6 +160,10 @@ const Book = () => {
 
   if (!formData.clientName.trim()) {
     validationMessage = 'Client name is required.';
+  } else if (!formData.clientPhone.trim()) {
+    validationMessage = "Client's phone number is required.";
+  } else if (formData.clientPhone.replace(/\D/g, '').length < 7) {
+    validationMessage = 'Please enter a valid phone number.';
   } else if (
     !formData.startDate ||
     !formData.startTime ||
@@ -224,6 +229,7 @@ const Book = () => {
       await withTimeout(
         createBookingRequest({
           clientName: formData.clientName.trim(),
+          clientPhone: formData.clientPhone.trim(),
           vehicleId: formData.vehicleId,
           vehicleName: selectedVehicle.name,
           startAt: requestedStart,
@@ -241,6 +247,7 @@ const Book = () => {
       setFormData((currentState) => ({
         ...currentState,
         clientName: '',
+        clientPhone: '',
         price: '',
       }));
     } catch (error) {
@@ -440,6 +447,18 @@ const Book = () => {
                 onChange={handleFieldChange}
                 placeholder="Enter client name"
                 autoComplete="name"
+              />
+            </label>
+
+            <label className="booking-field">
+              <span>Client&apos;s phone number</span>
+              <input
+                type="tel"
+                name="clientPhone"
+                value={formData.clientPhone}
+                onChange={handleFieldChange}
+                placeholder="e.g. 07123 456789"
+                autoComplete="tel"
               />
             </label>
 

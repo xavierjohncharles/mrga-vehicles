@@ -22,6 +22,7 @@ service cloud.firestore {
       allow create: if isAdmin() || (
         request.resource.data.keys().hasOnly([
           'clientName',
+          'clientPhone',
           'vehicleId',
           'vehicleName',
           'startAt',
@@ -31,6 +32,7 @@ service cloud.firestore {
           'createdAt'
         ])
         && request.resource.data.clientName is string
+        && request.resource.data.clientPhone is string
         && request.resource.data.vehicleId is string
         && request.resource.data.vehicleName is string
         && request.resource.data.price is number
